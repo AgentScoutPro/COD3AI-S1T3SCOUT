@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-23T09:50:00.000Z",
+  "title": "Design System: COD3AI S1T3SCOUT",
+  "extensions": {
+    "colorMeta": {
+      "obsidian": { "role": "neutral", "displayName": "Obsidian", "canonical": "#07090D", "tonalRamp": ["#020304", "#07090D", "#10141B", "#151B24", "#222A36", "#465064", "#7E8998", "#CBD3DE", "#F4F7FA"] },
+      "carbon": { "role": "neutral", "displayName": "Carbon", "canonical": "#10141B", "tonalRamp": ["#020304", "#07090D", "#10141B", "#151B24", "#222A36", "#465064", "#7E8998", "#CBD3DE", "#F4F7FA"] },
+      "panel": { "role": "neutral", "displayName": "Panel", "canonical": "#151B24", "tonalRamp": ["#020304", "#07090D", "#10141B", "#151B24", "#222A36", "#465064", "#7E8998", "#CBD3DE", "#F4F7FA"] },
+      "slate": { "role": "neutral", "displayName": "Slate", "canonical": "#222A36", "tonalRamp": ["#020304", "#07090D", "#10141B", "#151B24", "#222A36", "#465064", "#7E8998", "#CBD3DE", "#F4F7FA"] },
+      "signal": { "role": "primary", "displayName": "Signal", "canonical": "#C8FF3D", "tonalRamp": ["#293505", "#425408", "#5C740B", "#8CB015", "#C8FF3D", "#D6FF66", "#E5FF97", "#F4FFC9"] },
+      "authority-gold": { "role": "primary", "displayName": "Authority Gold", "canonical": "#D8B45A", "tonalRamp": ["#2E2510", "#4A3B1A", "#725C29", "#A88843", "#D8B45A", "#E1C481", "#EBD8A9", "#F5ECD4"] },
+      "radar-cyan": { "role": "secondary", "displayName": "Radar Cyan", "canonical": "#33D6FF", "tonalRamp": ["#0B2F3A", "#134B5C", "#1C6E86", "#279CBC", "#33D6FF", "#66E1FF", "#99EBFF", "#CCF5FF"] },
+      "critical": { "role": "semantic", "displayName": "Critical", "canonical": "#FF5C68", "tonalRamp": ["#3A0E12", "#5C171E", "#8F242E", "#C0323F", "#FF5C68", "#FF848D", "#FFACB2", "#FFD5D8"] },
+      "warning": { "role": "semantic", "displayName": "Warning", "canonical": "#FFB84D", "tonalRamp": ["#3A2610", "#5C3C18", "#8F5D24", "#C08030", "#FFB84D", "#FFCA7A", "#FFDCA6", "#FFEED3"] },
+      "success": { "role": "semantic", "displayName": "Success", "canonical": "#42E59B", "tonalRamp": ["#0E3324", "#17513A", "#247A58", "#31A377", "#42E59B", "#71ECB4", "#A0F2CD", "#D0F9E6"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Brand headlines and major product statements only — page H1s, business name on the report." },
+      "ui": { "displayName": "UI", "purpose": "Navigation, body, forms, tables — the default." },
+      "data": { "displayName": "Data", "purpose": "Scores, rank positions, URLs, scan metadata — tabular figures." }
+    },
+    "shadows": [
+      { "name": "shadow-elevated", "value": "0 18px 60px rgba(0,0,0,0.28)", "purpose": "Reserved for the AuthorityGauge only — the one element per screen meant to visually lift." }
+    ],
+    "motion": [
+      { "name": "ease-brand", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Default easing for all transitions." },
+      { "name": "duration-fast", "value": "120ms", "purpose": "Micro-interactions." },
+      { "name": "duration-standard", "value": "220ms", "purpose": "Default hover/focus transitions." },
+      { "name": "duration-slow", "value": "420ms", "purpose": "Larger state changes." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "480px" },
+      { "name": "tablet", "value": "768px" },
+      { "name": "desktop", "value": "1024px" },
+      { "name": "wide", "value": "1440px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one solid-fill action per screen — Run a Scout Scan, submit audit.",
+      "html": "<button class=\"ds-btn-primary\">Run a Scout Scan</button>",
+      "css": ".ds-btn-primary { background: #C8FF3D; color: #07090D; padding: 12px 24px; border-radius: 8px; border: none; font-family: Inter, sans-serif; font-size: 0.9375rem; font-weight: 500; cursor: pointer; transition: background-color 220ms cubic-bezier(0.22,1,0.36,1); } .ds-btn-primary:hover { background: #D6FF66; } .ds-btn-primary:focus-visible { outline: 2px solid #C8FF3D; outline-offset: 2px; } .ds-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }"
+    },
+    {
+      "name": "Severity Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Status/severity pill — maps to the four official status colors only.",
+      "html": "<span class=\"ds-badge ds-badge-critical\">Critical</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 6px; border-radius: 9999px; padding: 2px 10px; font-family: Inter, sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid transparent; } .ds-badge-critical { background: rgba(255,92,104,0.15); color: #FF5C68; border-color: rgba(255,92,104,0.3); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The system's container — report sections, dashboard rows.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-header\">Category Breakdown</div><div class=\"ds-card-body\">Content</div></div>",
+      "css": ".ds-card { background: #10141B; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; } .ds-card-header { padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #F4F7FA; } .ds-card-body { padding: 20px 24px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": null,
+      "description": "Form fields on the audit intake form.",
+      "html": "<input class=\"ds-input\" placeholder=\"Desert Comfort Heating & Air\" />",
+      "css": ".ds-input { width: 100%; background: #151B24; color: #F4F7FA; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 16px; font-family: Inter, sans-serif; font-size: 0.9375rem; outline: none; transition: border-color 220ms cubic-bezier(0.22,1,0.36,1); } .ds-input:focus { border-color: #C8FF3D; } .ds-input::placeholder { color: #7E8998; }"
+    },
+    {
+      "name": "AuthorityGauge",
+      "kind": "custom",
+      "refersTo": "authority-gauge",
+      "description": "Signature component: the overall score display. The only element using the 22px radius and the elevation shadow.",
+      "html": "<div class=\"ds-gauge ds-gauge-dominant\"><span class=\"ds-gauge-number\">82</span><span class=\"ds-gauge-suffix\">/ 100</span><span class=\"ds-gauge-label\">Authority-Ready</span></div>",
+      "css": ".ds-gauge { display: inline-flex; flex-direction: column; align-items: center; background: #10141B; border-radius: 22px; border-width: 2px; border-style: solid; padding: 24px 32px; box-shadow: 0 18px 60px rgba(0,0,0,0.28); } .ds-gauge-dominant { border-color: rgba(216,180,90,0.5); color: #D8B45A; } .ds-gauge-number { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 3rem; font-weight: 600; font-variant-numeric: tabular-nums; } .ds-gauge-suffix { font-family: Inter, sans-serif; font-size: 0.75rem; color: #7E8998; margin-top: 4px; } .ds-gauge-label { margin-top: 12px; font-family: Inter, sans-serif; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }"
+    },
+    {
+      "name": "Processing Stage Row",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Signature component: a real (non-simulated) stage-progress row driven by persisted audit_events.",
+      "html": "<li class=\"ds-stage-row ds-stage-active\"><span class=\"ds-stage-dot\"></span>Comparing the local competitor field</li>",
+      "css": ".ds-stage-row { display: flex; align-items: center; gap: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); background: #10141B; padding: 12px 16px; font-family: Inter, sans-serif; font-size: 0.9375rem; color: #7E8998; } .ds-stage-dot { width: 20px; height: 20px; border-radius: 9999px; border: 2px solid rgba(255,255,255,0.08); flex-shrink: 0; } .ds-stage-active { border-color: rgba(200,255,61,0.4); background: rgba(200,255,61,0.12); color: #F4F7FA; } .ds-stage-active .ds-stage-dot { border-color: #C8FF3D; animation: ds-pulse 1.5s ease-in-out infinite; } @keyframes ds-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Radar / Command Console",
+    "overview": "A local-intelligence command center for home-service operators — not a generic SaaS dashboard, not an 'AI tool' performing intelligence. Backgrounds sit in four close obsidian-to-slate tones; two brand colors — signal lime for action, authority gold for the score itself — carry almost all of the color budget, with radar cyan reserved for 'opportunity' framing. The logo's own radar/scope motif is the literal source of the 'signal' and 'radar_cyan' names.",
+    "keyCharacteristics": [
+      "Four-tier obsidian/carbon/panel/slate backgrounds, no gradients",
+      "Two-color brand system: signal lime (action) + authority gold (the score, and only the score)",
+      "A translucent white border (rgba(255,255,255,0.08)), not a solid border color",
+      "A real elevation shadow reserved for the AuthorityGauge only",
+      "Three-typeface system: Space Grotesk (headlines) / Inter (UI) / IBM Plex Mono (numbers/data)"
+    ],
+    "rules": [
+      { "name": "The Two-Color Rule", "body": "Signal and Authority Gold never both appear as the primary color on the same element. Signal means 'click me / this is active.' Authority Gold means 'this is the score.'", "section": "colors" },
+      { "name": "The Three-Role Rule", "body": "A typeface signals what kind of content something is: Space Grotesk = brand statement, Inter = interface, IBM Plex Mono = measured number/raw data.", "section": "typography" },
+      { "name": "The One Shadow Rule", "body": "shadow-elevated exists for exactly one purpose: the AuthorityGauge. Every other surface uses tone + border only.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep Signal (lime) and Authority Gold mutually exclusive as primary colors on any one element.",
+      "Do use the four official status colors for severity/state — critical/warning/success/opportunity — never a fifth.",
+      "Do use Space Grotesk only for brand headlines, Inter for everything else, IBM Plex Mono for scores/data.",
+      "Do reserve shadow-elevated for the AuthorityGauge alone."
+    ],
+    "donts": [
+      "Don't invent new hex values outside this token set.",
+      "Don't apply the AuthorityGauge's shadow or 22px radius to ordinary cards.",
+      "Don't claim a data source or capability in copy that isn't actually implemented.",
+      "Don't use gradients, glow, or glassmorphism anywhere."
+    ]
+  }
+}

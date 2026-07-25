@@ -1,26 +1,94 @@
 @import "tailwindcss";
 
+/* Design tokens sourced directly from the official brand kit
+   (~/Downloads/COD3AI_S1T3SCOUT_Brand_Kit/brand-tokens.json). Do not
+   invent new hex values here — extend from these roles instead. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* backgrounds */
+  --background: #07090d; /* obsidian */
+  --surface: #10141b; /* carbon */
+  --surface-raised: #151b24; /* panel */
+  --surface-overlay: #222a36; /* slate */
+  --border: rgba(255, 255, 255, 0.08);
+
+  /* text */
+  --foreground: #f4f7fa; /* primary */
+  --secondary: #cbd3de; /* secondary body text */
+  --muted: #7e8998; /* captions, labels, disabled */
+
+  /* brand */
+  --accent: #c8ff3d; /* signal — primary interactive */
+  --accent-soft: rgba(200, 255, 61, 0.12);
+  --authority: #d8b45a; /* authority_gold — score/gauge only */
+  --authority-soft: rgba(216, 180, 90, 0.12);
+  --opportunity: #33d6ff; /* radar_cyan */
+
+  /* status (severity/finding-state — reuse these four, don't add more) */
+  --critical: #ff5c68;
+  --warning: #ffb84d;
+  --success: #42e59b;
+
+  /* radii: brand kit specifies small=8/medium=14/large=22/pill=999.
+     Tailwind's own `rounded-lg` already defaults to 8px (matches "small"),
+     so buttons/inputs/list rows keep using bare `rounded-lg` unchanged —
+     deliberately NOT overriding Tailwind's radius scale here, since that
+     would silently reinterpret every existing `rounded-lg` call site.
+     "medium" (Card) and "large" (AuthorityGauge) use arbitrary values
+     (`rounded-[14px]` / `rounded-[22px]`) directly at those two call sites
+     instead. `rounded-full` already covers "pill" closely enough. */
+
+  /* elevation */
+  --shadow-elevated: 0 18px 60px rgba(0, 0, 0, 0.28);
+
+  /* motion */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 120ms;
+  --duration-standard: 220ms;
+  --duration-slow: 420ms;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-border: var(--border);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-authority: var(--authority);
+  --color-authority-soft: var(--authority-soft);
+  --color-opportunity: var(--opportunity);
+  --color-critical: var(--critical);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+
+  /* Raw font-family stacks come from next/font in layout.tsx; mapped here
+     to the theme keys that generate `font-sans` / `font-display` /
+     `font-mono` utilities. Deliberately non-colliding names on each side —
+     `--font-display: var(--font-display)` would be a circular reference. */
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
+  --font-mono: var(--font-ibm-plex-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: dark;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .print-break {
+    break-inside: avoid;
+  }
 }
