@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
     root: path.resolve(__dirname),
   },
   serverExternalPackages: ["playwright-core", "@sparticuz/chromium"],
+  outputFileTracingIncludes: {
+    "/api/reports/[token]/pdf": [
+      "./node_modules/playwright-core/**/*",
+      "./node_modules/@sparticuz/chromium/**/*",
+    ],
+  },
 };
 
 export default nextConfig;
