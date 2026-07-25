@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  serverExternalPackages: ["playwright-core", "@sparticuz/chromium"],
 };
 
 export default nextConfig;
