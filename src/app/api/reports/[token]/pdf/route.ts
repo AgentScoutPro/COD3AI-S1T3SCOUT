@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { chromium, type Browser } from "playwright-core";
 import { getSupabaseAdmin } from "@/lib/supabase/server";
 import { canExportPdf } from "@/lib/audit/approval-gate";
+import { env } from "@/lib/env";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -36,7 +37,7 @@ async function launchBrowser(): Promise<Browser> {
   });
 }
 
-export async function GET(request: Request, ctx: { params: Promise<{ token: string }> }) {
+export async function GET(_request: Request, ctx: { params: Promise<{ token: string }> }) {
   const { token } = await ctx.params;
   const supabase = getSupabaseAdmin();
   const { data: report } = await supabase.from("reports").select("report_json, audit_id").eq("public_token", token).single();
@@ -56,8 +57,16 @@ export async function GET(request: Request, ctx: { params: Promise<{ token: stri
   const reportJson = report.report_json as {
     business?: { name?: string; websiteUrl?: string };
   };
-  const baseUrl = new URL(request.url).origin;
-  const reportUrl = `${baseUrl}/reports/${token}`;
+  // Deliberately NOT `new URL(request.url).origin`: on Vercel, every
+  // deployment also gets a unique per-deployment hash URL
+  // (cod-3-ai-s1-t3-scout-<hash>-....vercel.app), and those are covered by
+  // Vercel Deployment Protection (an SSO wall) even when the stable
+  // production domain isn't. A download triggered from one of those hash
+  // URLs would make this server-side Playwright navigation hit Vercel's
+  // login page instead of the report and "print" that — confirmed as the
+  // cause of a real broken-PDF report. env.appUrl (NEXT_PUBLIC_APP_URL) is
+  // the one canonical, unprotected domain this should always target.
+  const reportUrl = `${env.appUrl}/reports/${token}`;
   const browser = await launchBrowser();
 
   try {
