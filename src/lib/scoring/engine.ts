@@ -28,7 +28,13 @@ const ALL_RULES = [
 ];
 
 export function runScoringEngine(ctx: RuleContext): ScoringResult {
-  const findings: RuleFinding[] = ALL_RULES.map((rule) => rule.evaluate(ctx));
+  // Evidence-binding metadata (industryTemplate, scoreable) is the same
+  // derivation for every rule in a run, so it's stamped once here rather
+  // than duplicated across all 44 rule implementations.
+  const findings: RuleFinding[] = ALL_RULES.map((rule) => {
+    const finding = rule.evaluate(ctx);
+    return { ...finding, industryTemplate: ctx.template.slug, scoreable: finding.status !== "unknown" };
+  });
 
   const categories: CategoryScoreResult[] = CATEGORY_ORDER.map((category) => {
     const categoryFindings = findings.filter((f) => f.category === category);

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { chromium, type Browser } from "playwright-core";
 import { getSupabaseAdmin } from "@/lib/supabase/server";
+import { canExportPdf } from "@/lib/audit/approval-gate";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -38,10 +39,18 @@ async function launchBrowser(): Promise<Browser> {
 export async function GET(request: Request, ctx: { params: Promise<{ token: string }> }) {
   const { token } = await ctx.params;
   const supabase = getSupabaseAdmin();
-  const { data: report } = await supabase.from("reports").select("report_json").eq("public_token", token).single();
+  const { data: report } = await supabase.from("reports").select("report_json, audit_id").eq("public_token", token).single();
 
   if (!report) {
     return NextResponse.json({ error: "Report not found." }, { status: 404 });
+  }
+
+  // §7: PDF export requires the same approval gate as the public report
+  // page — a rejected/needs_review public_live audit must not be
+  // exportable just because the caller knows the token.
+  const { data: audit } = await supabase.from("audits").select("audit_mode, review_status").eq("id", report.audit_id).single();
+  if (audit && !canExportPdf(audit.audit_mode, audit.review_status)) {
+    return NextResponse.json({ error: "This report is pending approval and cannot be exported yet." }, { status: 403 });
   }
 
   const reportJson = report.report_json as {

@@ -43,6 +43,11 @@ export async function createAudit(input: AuditIntakeInput): Promise<CreateAuditR
       status: "queued",
       current_stage: "queued",
       scoring_version: SCORING_VERSION,
+      // Public intake always starts as public_live — mock/synthetic data is
+      // never permitted here (see src/lib/audit/provider-integrity.ts) and
+      // the resulting report requires human approval before it can be
+      // publicly viewed, PDF-exported, or handed to the CRM.
+      audit_mode: "public_live",
     })
     .select("id")
     .single();

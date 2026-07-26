@@ -1,0 +1,973 @@
+{
+  "auditId": "bd1a5038-add5-4429-98c4-2f769e0b5ff4",
+  "reportToken": "EWDoighwB5FPMM1rDdHmqTz8lm03xtuU",
+  "reportUrl": "http://localhost:3006/reports/EWDoighwB5FPMM1rDdHmqTz8lm03xtuU",
+  "auditMode": "public_live",
+  "reviewStatus": "approved",
+  "reviewedBy": "Claude (automated platform-integrity fix + Kiwi Coatings re-audit task)",
+  "business": {
+    "city": "Coolidge",
+    "name": "Kiwi Coatings",
+    "state": "AZ",
+    "industry": "concrete-coatings",
+    "websiteUrl": "https://kiwicoatingsaz.com/"
+  },
+  "industryClassification": {
+    "selectedIndustry": "concrete-coatings",
+    "detectedIndustry": "concrete-coatings",
+    "selectedConfidence": 90.0,
+    "detectedConfidence": 90.0,
+    "mismatch": false
+  },
+  "entityVerification": {
+    "status": "not_applicable",
+    "confidence": 0,
+    "note": "Google Places is unavailable in this environment (no GOOGLE_MAPS_API_KEY configured) - correctly marked unavailable rather than substituted with mock/synthetic data, per the provider-integrity layer."
+  },
+  "providerModesUsed": {
+    "website": "live",
+    "places": "unavailable (mock rejected - public_live audit mode)",
+    "pagespeed": "unavailable (mock rejected - public_live audit mode)",
+    "ai_report": "demo_synthetic (deterministic template derived entirely from this audit's own real, evidence-bound findings - not a live LLM call, but not a fabricated fact either)",
+    "crm": "unavailable (no GHL_AUDIT_WEBHOOK_URL configured)"
+  },
+  "classification": {
+    "band": "critical",
+    "label": "Critical"
+  },
+  "scoring": {
+    "findings": [
+      {
+        "ruleId": "tech.https",
+        "status": "pass",
+        "category": "technical_foundation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [
+          "https://kiwicoatingsaz.com/"
+        ],
+        "explanation": "The homepage is served over HTTPS.",
+        "pointsEarned": 3,
+        "estimatedEffort": "low",
+        "estimatedImpact": "high",
+        "pointsAvailable": 3,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "tech.crawlability",
+        "status": "pass",
+        "category": "technical_foundation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "robots.txt allows crawling of the homepage.",
+        "pointsEarned": 2,
+        "estimatedEffort": "low",
+        "estimatedImpact": "high",
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "tech.sitemap_presence",
+        "status": "pass",
+        "category": "technical_foundation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [
+          "https://kiwicoatingsaz.com/sitemap_index.xml",
+          "https://kiwicoatingsaz.com/post-sitemap.xml",
+          "https://kiwicoatingsaz.com/page-sitemap.xml",
+          "https://kiwicoatingsaz.com/category-sitemap.xml",
+          "https://kiwicoatingsaz.com/author-sitemap.xml"
+        ],
+        "explanation": "Found 5 XML sitemap(s).",
+        "pointsEarned": 2,
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "tech.title_coverage",
+        "status": "pass",
+        "category": "technical_foundation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "92% of crawled pages have a <title> tag.",
+        "pointsEarned": 1.85,
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "tech.meta_description_coverage",
+        "status": "fail",
+        "category": "technical_foundation",
+        "evidence": {},
+        "severity": "low",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "0% of crawled pages have a meta description.",
+        "pointsEarned": 0,
+        "recommendation": "Write unique meta descriptions summarizing each page's value.",
+        "estimatedEffort": "low",
+        "estimatedImpact": "low",
+        "pointsAvailable": 1.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "tech.h1_coverage",
+        "status": "pass",
+        "category": "technical_foundation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "92% of crawled pages have exactly one H1.",
+        "pointsEarned": 1.38,
+        "estimatedEffort": "low",
+        "estimatedImpact": "low",
+        "pointsAvailable": 1.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "tech.canonical_coverage",
+        "status": "pass",
+        "category": "technical_foundation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "92% of crawled pages declare a canonical URL.",
+        "pointsEarned": 1.38,
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 1.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "tech.mobile_viewport",
+        "status": "warning",
+        "category": "technical_foundation",
+        "evidence": {},
+        "severity": "high",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "92% of crawled pages declare a mobile viewport meta tag.",
+        "pointsEarned": 1.38,
+        "recommendation": "Add a responsive viewport meta tag site-wide.",
+        "estimatedEffort": "low",
+        "estimatedImpact": "high",
+        "pointsAvailable": 1.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "tech.broken_links_images",
+        "status": "warning",
+        "category": "technical_foundation",
+        "evidence": {},
+        "severity": "medium",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "Found 1 broken link(s)/image(s) across crawled pages.",
+        "pointsEarned": 1,
+        "recommendation": "Fix or remove broken links and images found during the crawl.",
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "tech.structured_data",
+        "status": "fail",
+        "category": "technical_foundation",
+        "evidence": {
+          "schemaTypes": []
+        },
+        "severity": "high",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [
+          "https://kiwicoatingsaz.com/"
+        ],
+        "explanation": "Homepage is missing LocalBusiness or Organization schema markup.",
+        "pointsEarned": 0,
+        "recommendation": "Add LocalBusiness JSON-LD schema with name, address, phone, and hours.",
+        "estimatedEffort": "low",
+        "estimatedImpact": "high",
+        "pointsAvailable": 2.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "gbp.profile_found",
+        "status": "unknown",
+        "category": "google_business_profile",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "Google Places lookup is not configured \u2014 Google Business Profile presence is unknown.",
+        "pointsEarned": 0,
+        "pointsAvailable": 5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "gbp.business_status",
+        "status": "unknown",
+        "category": "google_business_profile",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "No Google Business Profile match to evaluate status.",
+        "pointsEarned": 0,
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "gbp.rating_threshold",
+        "status": "unknown",
+        "category": "google_business_profile",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "No rating data available from Google Business Profile.",
+        "pointsEarned": 0,
+        "pointsAvailable": 3,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "gbp.review_count_threshold",
+        "status": "unknown",
+        "category": "google_business_profile",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "No review count data available.",
+        "pointsEarned": 0,
+        "pointsAvailable": 3,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "gbp.hours_listed",
+        "status": "unknown",
+        "category": "google_business_profile",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "No Google Business Profile match to evaluate hours.",
+        "pointsEarned": 0,
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "gbp.website_linked",
+        "status": "unknown",
+        "category": "google_business_profile",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "No Google Business Profile match to evaluate website link.",
+        "pointsEarned": 0,
+        "pointsAvailable": 3,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "gbp.phone_matches_site",
+        "status": "unknown",
+        "category": "google_business_profile",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "No phone number available from Google Business Profile to compare.",
+        "pointsEarned": 0,
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "svcloc.service_page_coverage",
+        "status": "fail",
+        "category": "service_location_architecture",
+        "evidence": {
+          "covered": [],
+          "missing": [
+            "Garage Floor Coating",
+            "Epoxy Flooring",
+            "Polyaspartic Coating",
+            "Metallic Epoxy",
+            "Commercial Floor Coating",
+            "Patio Coating",
+            "Pool Deck Coating",
+            "Quartz Systems",
+            "Hybrid Systems",
+            "Flake Systems"
+          ]
+        },
+        "severity": "high",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "0/10 expected Concrete & Epoxy Coatings services have a dedicated page.",
+        "pointsEarned": 0,
+        "recommendation": "Create dedicated pages for: Garage Floor Coating, Epoxy Flooring, Polyaspartic Coating, Metallic Epoxy, Commercial Floor Coating.",
+        "estimatedEffort": "medium",
+        "estimatedImpact": "high",
+        "pointsAvailable": 4,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "svcloc.location_page_presence",
+        "status": "warning",
+        "category": "service_location_architecture",
+        "evidence": {},
+        "severity": "medium",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "No dedicated location or service-area pages were found.",
+        "pointsEarned": 0,
+        "recommendation": "Add a page describing the specific cities/areas served.",
+        "estimatedEffort": "medium",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "svcloc.internal_linking",
+        "status": "pass",
+        "category": "service_location_architecture",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "Pages average 8.8 internal links, which affects how well service/location pages are discovered.",
+        "pointsEarned": 2,
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "svcloc.emergency_page",
+        "status": "pass",
+        "category": "service_location_architecture",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "Emergency-service pages are not a typical expectation for Concrete & Epoxy Coatings.",
+        "pointsEarned": 0,
+        "pointsAvailable": 0,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "svcloc.financing_page",
+        "status": "warning",
+        "category": "service_location_architecture",
+        "evidence": {},
+        "severity": "low",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "No financing information was found.",
+        "pointsEarned": 0,
+        "recommendation": "Add a financing page or section describing payment options.",
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 1.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "svcloc.maintenance_plan_page",
+        "status": "pass",
+        "category": "service_location_architecture",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "Maintenance-plan pages are not a typical expectation for Concrete & Epoxy Coatings.",
+        "pointsEarned": 0,
+        "pointsAvailable": 0,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "svcloc.doorway_page_risk",
+        "status": "pass",
+        "category": "service_location_architecture",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "Not enough location pages exist yet to assess doorway/duplicate-content risk.",
+        "pointsEarned": 1.5,
+        "pointsAvailable": 1.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "content.word_count_sufficiency",
+        "status": "warning",
+        "category": "local_content_relevance",
+        "evidence": {},
+        "severity": "medium",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [
+          "https://kiwicoatingsaz.com/"
+        ],
+        "explanation": "Homepage has approximately 364 words of content.",
+        "pointsEarned": 2.28,
+        "recommendation": "Expand homepage content to substantively describe services, service area, and value proposition.",
+        "estimatedEffort": "medium",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 2.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "content.city_state_mentions",
+        "status": "pass",
+        "category": "local_content_relevance",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 0.7,
+        "sourceUrls": [],
+        "explanation": "Homepage content mentions the primary service city.",
+        "pointsEarned": 2,
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "content.service_keyword_relevance",
+        "status": "pass",
+        "category": "local_content_relevance",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 0.6,
+        "sourceUrls": [],
+        "explanation": "Homepage mentions 8 core Concrete & Epoxy Coatings service keyword(s).",
+        "pointsEarned": 2,
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "content.trust_signal_copy",
+        "status": "pass",
+        "category": "local_content_relevance",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 0.5,
+        "sourceUrls": [],
+        "explanation": "Site copy references 2 trust/certification signal(s) typical for Concrete & Epoxy Coatings.",
+        "pointsEarned": 2,
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "content.meta_description_uniqueness",
+        "status": "pass",
+        "category": "local_content_relevance",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "Not enough pages with meta descriptions to assess duplication.",
+        "pointsEarned": 1.5,
+        "pointsAvailable": 1.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "reviews.sample_available",
+        "status": "unknown",
+        "category": "reviews_reputation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "Google Places is not configured \u2014 review sample is unavailable.",
+        "pointsEarned": 0,
+        "pointsAvailable": 3,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "reviews.recency",
+        "status": "unknown",
+        "category": "reviews_reputation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "No review sample available to assess recency.",
+        "pointsEarned": 0,
+        "pointsAvailable": 3,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "reviews.rating_consistency",
+        "status": "unknown",
+        "category": "reviews_reputation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "Not enough reviews in the sample to assess rating consistency.",
+        "pointsEarned": 0,
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "reviews.owner_response_evidence",
+        "status": "unknown",
+        "category": "reviews_reputation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "Owner responses to reviews are not exposed by the current Places API field mask \u2014 this signal is out of scope for the public MVP.",
+        "pointsEarned": 0,
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "reviews.on_site_social_proof",
+        "status": "pass",
+        "category": "reviews_reputation",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 0.6,
+        "sourceUrls": [],
+        "explanation": "The website surfaces reviews or testimonials on-page.",
+        "pointsEarned": 1.2,
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 2,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "citations.nap_name_consistency",
+        "status": "unknown",
+        "category": "local_authority_citations",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "No Google Business Profile match to compare business name against.",
+        "pointsEarned": 0,
+        "pointsAvailable": 3,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "citations.directory_coverage",
+        "status": "unknown",
+        "category": "local_authority_citations",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "Citation directory coverage (Yelp, BBB, industry directories, data aggregators) requires the citationProvider integration, which is Phase 3+ scaffolding not yet implemented. See CONNECTED_AUDIT_ROADMAP.md.",
+        "pointsEarned": 0,
+        "pointsAvailable": 4,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "citations.data_aggregator_presence",
+        "status": "unknown",
+        "category": "local_authority_citations",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "Presence in core data aggregators (e.g. Data Axle, Foursquare) requires a connected citation-monitoring integration not built in this MVP pass.",
+        "pointsEarned": 0,
+        "pointsAvailable": 3,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "competitive.benchmark_available",
+        "status": "unknown",
+        "category": "competitive_visibility",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "Competitor search was not available for this audit (unconfigured or rejected by the provider-integrity check) \u2014 competitive visibility is not evaluated rather than scored as absent.",
+        "pointsEarned": 0,
+        "pointsAvailable": 1.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "competitive.rating_percentile",
+        "status": "unknown",
+        "category": "competitive_visibility",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "Insufficient rating data to compare against the competitive benchmark.",
+        "pointsEarned": 0,
+        "pointsAvailable": 3,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "competitive.review_count_percentile",
+        "status": "unknown",
+        "category": "competitive_visibility",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "Insufficient review-count data to compare against the competitive benchmark.",
+        "pointsEarned": 0,
+        "pointsAvailable": 3,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "competitive.service_coverage_percentile",
+        "status": "unknown",
+        "category": "competitive_visibility",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": false,
+        "confidence": 0,
+        "sourceUrls": [],
+        "explanation": "No competitor website crawl data available to compare service-page coverage.",
+        "pointsEarned": 0,
+        "pointsAvailable": 2.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "conversion.click_to_call",
+        "status": "pass",
+        "category": "conversion_measurement",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "92% of crawled pages have a tap-to-call phone link.",
+        "pointsEarned": 1.38,
+        "estimatedEffort": "low",
+        "estimatedImpact": "high",
+        "pointsAvailable": 1.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "conversion.booking_form",
+        "status": "pass",
+        "category": "conversion_measurement",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "A booking, estimate, or scheduling form was found on the site.",
+        "pointsEarned": 1.5,
+        "estimatedEffort": "medium",
+        "estimatedImpact": "high",
+        "pointsAvailable": 1.5,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "conversion.mobile_cta_visibility",
+        "status": "pass",
+        "category": "conversion_measurement",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 0.6,
+        "sourceUrls": [],
+        "explanation": "The homepage combines a mobile-responsive layout with a tap-to-call CTA.",
+        "pointsEarned": 1,
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 1,
+        "industryTemplate": "concrete-coatings"
+      },
+      {
+        "ruleId": "conversion.analytics_tag_manager",
+        "status": "pass",
+        "category": "conversion_measurement",
+        "evidence": {},
+        "severity": "informational",
+        "scoreable": true,
+        "confidence": 1,
+        "sourceUrls": [],
+        "explanation": "Analytics or tag-manager code was detected on the site.",
+        "pointsEarned": 1,
+        "estimatedEffort": "low",
+        "estimatedImpact": "medium",
+        "pointsAvailable": 1,
+        "industryTemplate": "concrete-coatings"
+      }
+    ],
+    "categories": [
+      {
+        "weight": 20,
+        "category": "google_business_profile",
+        "confidence": 0,
+        "earnedPoints": 0,
+        "weightedScore": 0,
+        "availablePoints": 0,
+        "categoryPercentage": 0
+      },
+      {
+        "weight": 15,
+        "category": "technical_foundation",
+        "confidence": 100,
+        "earnedPoints": 13.99,
+        "weightedScore": 10.76,
+        "availablePoints": 19.5,
+        "categoryPercentage": 71.74
+      },
+      {
+        "weight": 15,
+        "category": "service_location_architecture",
+        "confidence": 100,
+        "earnedPoints": 3.5,
+        "weightedScore": 4.77,
+        "availablePoints": 11,
+        "categoryPercentage": 31.82
+      },
+      {
+        "weight": 10,
+        "category": "local_content_relevance",
+        "confidence": 100,
+        "earnedPoints": 9.78,
+        "weightedScore": 9.78,
+        "availablePoints": 10,
+        "categoryPercentage": 97.8
+      },
+      {
+        "weight": 15,
+        "category": "reviews_reputation",
+        "confidence": 20,
+        "earnedPoints": 1.2,
+        "weightedScore": 9,
+        "availablePoints": 2,
+        "categoryPercentage": 60
+      },
+      {
+        "weight": 10,
+        "category": "local_authority_citations",
+        "confidence": 0,
+        "earnedPoints": 0,
+        "weightedScore": 0,
+        "availablePoints": 0,
+        "categoryPercentage": 0
+      },
+      {
+        "weight": 10,
+        "category": "competitive_visibility",
+        "confidence": 0,
+        "earnedPoints": 0,
+        "weightedScore": 0,
+        "availablePoints": 0,
+        "categoryPercentage": 0
+      },
+      {
+        "weight": 5,
+        "category": "conversion_measurement",
+        "confidence": 100,
+        "earnedPoints": 4.88,
+        "weightedScore": 4.88,
+        "availablePoints": 5,
+        "categoryPercentage": 97.6
+      }
+    ],
+    "overallScore": 39.19,
+    "scoringVersion": "1.0.0",
+    "confidenceScore": 48
+  },
+  "competitors": [],
+  "report": {
+    "limitations": [
+      "No verified Google Business Profile match \u2014 GBP and review signals are marked unknown.",
+      "No competitive benchmark data was available for this service category and city.",
+      "PageSpeed Insights is unavailable \u2014 performance findings are unavailable."
+    ],
+    "sixtyDayPlan": [
+      {
+        "title": "No dedicated location or service-area pages were found",
+        "effort": "medium",
+        "category": "Service & Location Pages",
+        "description": "Add a page describing the specific cities/areas served.",
+        "relatedFindingIds": [
+          "svcloc.location_page_presence"
+        ]
+      },
+      {
+        "title": "0% of crawled pages have a meta description",
+        "effort": "medium",
+        "category": "Technical Foundation",
+        "description": "Write unique meta descriptions summarizing each page's value.",
+        "relatedFindingIds": [
+          "tech.meta_description_coverage"
+        ]
+      }
+    ],
+    "ninetyDayPlan": [
+      {
+        "title": "No financing information was found",
+        "effort": "medium",
+        "category": "Service & Location Pages",
+        "description": "Add a financing page or section describing payment options.",
+        "relatedFindingIds": [
+          "svcloc.financing_page"
+        ]
+      }
+    ],
+    "thirtyDayPlan": [
+      {
+        "title": "0/10 expected Concrete & Epoxy Coatings services have a dedicated page",
+        "effort": "medium",
+        "category": "Service & Location Pages",
+        "description": "Create dedicated pages for: Garage Floor Coating, Epoxy Flooring, Polyaspartic Coating, Metallic Epoxy, Commercial Floor Coating.",
+        "relatedFindingIds": [
+          "svcloc.service_page_coverage"
+        ]
+      },
+      {
+        "title": "Homepage is missing LocalBusiness or Organization schema markup",
+        "effort": "medium",
+        "category": "Technical Foundation",
+        "description": "Add LocalBusiness JSON-LD schema with name, address, phone, and hours.",
+        "relatedFindingIds": [
+          "tech.structured_data"
+        ]
+      }
+    ],
+    "strongestAreas": [
+      "Local Content Relevance",
+      "Conversion Measurement",
+      "Technical Foundation"
+    ],
+    "internalActions": [
+      "Confirm phone/email captured in intake match Google Business Profile listing before outreach."
+    ],
+    "executiveSummary": "Kiwi Coatings scored 39.19/100 for local search authority in Coolidge, AZ. The strongest area is Local Content Relevance; the biggest opportunity is Google Business Profile.",
+    "scoreExplanation": "The overall score is a weighted average across eight categories (Google Business Profile, technical foundation, service/location architecture, local content, reviews, citations, competitive visibility, and conversion measurement). Categories with unavailable data were excluded from their denominator rather than scored as zero, which lowers the confidence score (currently 48%) instead of penalizing the business unfairly.",
+    "topOpportunities": [
+      {
+        "title": "0/10 expected Concrete & Epoxy Coatings services have a dedicated page",
+        "effort": "medium",
+        "problem": "0/10 expected Concrete & Epoxy Coatings services have a dedicated page.",
+        "priority": "high",
+        "whyItMatters": "This affects the Service & Location Pages category, worth 15 points of the overall score.",
+        "expectedImpact": "medium",
+        "recommendedAction": "Create dedicated pages for: Garage Floor Coating, Epoxy Flooring, Polyaspartic Coating, Metallic Epoxy, Commercial Floor Coating.",
+        "evidenceFindingIds": [
+          "svcloc.service_page_coverage"
+        ]
+      },
+      {
+        "title": "Homepage is missing LocalBusiness or Organization schema markup",
+        "effort": "medium",
+        "problem": "Homepage is missing LocalBusiness or Organization schema markup.",
+        "priority": "high",
+        "whyItMatters": "This affects the Technical Foundation category, worth 15 points of the overall score.",
+        "expectedImpact": "medium",
+        "recommendedAction": "Add LocalBusiness JSON-LD schema with name, address, phone, and hours.",
+        "evidenceFindingIds": [
+          "tech.structured_data"
+        ]
+      },
+      {
+        "title": "No dedicated location or service-area pages were found",
+        "effort": "medium",
+        "problem": "No dedicated location or service-area pages were found.",
+        "priority": "medium",
+        "whyItMatters": "This affects the Service & Location Pages category, worth 15 points of the overall score.",
+        "expectedImpact": "medium",
+        "recommendedAction": "Add a page describing the specific cities/areas served.",
+        "evidenceFindingIds": [
+          "svcloc.location_page_presence"
+        ]
+      },
+      {
+        "title": "0% of crawled pages have a meta description",
+        "effort": "medium",
+        "problem": "0% of crawled pages have a meta description.",
+        "priority": "medium",
+        "whyItMatters": "This affects the Technical Foundation category, worth 15 points of the overall score.",
+        "expectedImpact": "medium",
+        "recommendedAction": "Write unique meta descriptions summarizing each page's value.",
+        "evidenceFindingIds": [
+          "tech.meta_description_coverage"
+        ]
+      },
+      {
+        "title": "No financing information was found",
+        "effort": "medium",
+        "problem": "No financing information was found.",
+        "priority": "low",
+        "whyItMatters": "This affects the Service & Location Pages category, worth 15 points of the overall score.",
+        "expectedImpact": "medium",
+        "recommendedAction": "Add a financing page or section describing payment options.",
+        "evidenceFindingIds": [
+          "svcloc.financing_page"
+        ]
+      }
+    ],
+    "cod3aiOpportunities": [
+      {
+        "service": "local_seo",
+        "rationale": "Deterministic findings show unaddressed local SEO gaps this audit surfaced."
+      },
+      {
+        "service": "website",
+        "rationale": "Technical and content findings indicate the site itself needs updates."
+      }
+    ]
+  },
+  "generatedAt": "2026-07-26T20:42:49.423Z"
+}

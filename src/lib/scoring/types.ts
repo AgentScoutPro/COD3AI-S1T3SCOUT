@@ -45,6 +45,10 @@ export interface RuleContext {
   pageSpeedConfigured: boolean;
   competitors: PlaceRecord[];
   competitorPages: Record<string, CrawledPageResult[]>;
+  /** False when the competitor-search provider result was rejected by the
+   * provider-integrity layer (or never configured) — distinct from a
+   * successful search that legitimately found zero competitors. */
+  competitorsConfigured: boolean;
 }
 
 export interface RuleFinding {
@@ -62,6 +66,13 @@ export interface RuleFinding {
   estimatedEffort?: ImpactEffort;
   /** 0-1. Lower confidence for rules relying on partial/unavailable data. */
   confidence: number;
+  /** Stamped by the engine post-evaluation, not set by individual rules —
+   * every finding in a run shares the same industry template. */
+  industryTemplate?: string;
+  /** Mirrors `status !== "unknown"`; stamped by the engine so evidence-bound
+   * consumers (report rendering, AI-output validation) don't need to know
+   * the status/scoreable convention themselves. */
+  scoreable?: boolean;
 }
 
 export interface ScoringRule {

@@ -14,6 +14,7 @@ const STAGE_LABELS: Record<string, string> = {
   discovering_website: "Discovering website & sitemaps",
   crawling_pages: "Crawling service and location architecture",
   analyzing_website: "Analyzing technical & content signals",
+  validating_industry: "Validating industry against site content",
   retrieving_places: "Verifying Google Business Profile signals",
   retrieving_pagespeed: "Measuring page speed",
   benchmarking_competitors: "Comparing the local competitor field",

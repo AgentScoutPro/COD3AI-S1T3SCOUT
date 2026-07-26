@@ -12,6 +12,7 @@ export interface BuildContextInput {
   pageSpeedConfigured: boolean;
   competitors: PlaceRecord[];
   competitorPages: Record<string, CrawledPageResult[]>;
+  competitorsConfigured: boolean;
 }
 
 export function buildRuleContext(input: BuildContextInput): RuleContext {
@@ -42,5 +43,6 @@ export function buildRuleContext(input: BuildContextInput): RuleContext {
     pageSpeedConfigured: input.pageSpeedConfigured,
     competitors: input.competitors,
     competitorPages: input.competitorPages,
+    competitorsConfigured: input.competitorsConfigured,
   };
 }

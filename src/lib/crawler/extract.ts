@@ -40,7 +40,17 @@ export function extractPageSignals(
   const canonicalUrl = $('link[rel="canonical"]').attr("href") || null;
   const hasViewportMeta = $('meta[name="viewport"]').length > 0;
 
-  const bodyText = $("body").text().replace(/\s+/g, " ").trim();
+  // Cheerio's .text() concatenates ALL descendant text nodes, including the
+  // literal CSS/JS source inside <style>/<script> tags anywhere in <body>
+  // (common with block-based themes/page builders that inline per-block
+  // styles) — confirmed against a real production site during this fix,
+  // where it silently consumed the entire text sample with CSS before any
+  // real content, and inflated wordCount with CSS tokens counted as "words".
+  // Cloning + stripping here (not on the shared `$`) so the later
+  // `script[type="application/ld+json"]` lookup below is unaffected.
+  const bodyClone = $("body").clone();
+  bodyClone.find("script, style, noscript").remove();
+  const bodyText = bodyClone.text().replace(/\s+/g, " ").trim();
   const wordCount = bodyText ? bodyText.split(" ").length : 0;
 
   const schemaTypes: string[] = [];
@@ -103,7 +113,14 @@ export function extractPageSignals(
     hasClickToCall,
     hasBookingForm,
     hasAnalytics,
-    signals: { wordCount, bodyTextSample: bodyText.slice(0, 500) },
+    // 500 chars was too short in practice: on a typical modern site the
+    // first 500 characters of body text are nav links and hero taglines,
+    // not the actual service-specific content — this was silently starving
+    // both NAP phone-matching (gbp.phone_matches_site) and industry
+    // detection (src/lib/industry-templates/detect.ts) of the real content
+    // they need, on ordinary production sites (confirmed against Kiwi
+    // Coatings' real site during this fix). Still bounded, not the full page.
+    signals: { wordCount, bodyTextSample: bodyText.slice(0, 3000) },
   };
 }
 

@@ -43,6 +43,7 @@ function makeContext(overrides: Partial<RuleContext> = {}): RuleContext {
     pageSpeedConfigured: false,
     competitors: [],
     competitorPages: {},
+    competitorsConfigured: false,
     ...overrides,
   };
 }
@@ -87,5 +88,57 @@ describe("runScoringEngine", () => {
   it("produces at least 40 findings across all categories", () => {
     const result = runScoringEngine(makeContext());
     expect(result.findings.length).toBeGreaterThanOrEqual(40);
+  });
+
+  // Required test #5: unavailable providers are excluded from scoring
+  // (not scored as a failure) — extends the existing GBP-category check to
+  // the Competitive Visibility category, which has its own configured flag.
+  it("excludes competitive-visibility findings from the denominator when the competitor provider is unconfigured, rather than failing them", () => {
+    const configured = runScoringEngine(makeContext({ competitorsConfigured: true, competitors: [] }));
+    const unconfigured = runScoringEngine(makeContext({ competitorsConfigured: false, competitors: [] }));
+
+    const benchmarkConfigured = configured.findings.find((f) => f.ruleId === "competitive.benchmark_available")!;
+    const benchmarkUnconfigured = unconfigured.findings.find((f) => f.ruleId === "competitive.benchmark_available")!;
+
+    expect(benchmarkConfigured.status).toBe("fail"); // genuinely searched, found zero
+    expect(benchmarkUnconfigured.status).toBe("unknown"); // never got a usable signal at all
+  });
+
+  // Required test #6: an unavailable category cannot receive 100%.
+  it("never scores a category 100% when its data was unavailable rather than genuinely earned", () => {
+    const result = runScoringEngine(
+      makeContext({
+        placesConfigured: false,
+        place: null,
+        pageSpeedConfigured: false,
+        pageSpeed: [],
+        competitorsConfigured: false,
+        competitors: [],
+      })
+    );
+
+    const gbp = result.categories.find((c) => c.category === "google_business_profile")!;
+    const competitive = result.categories.find((c) => c.category === "competitive_visibility")!;
+
+    // With every underlying signal unavailable, availablePoints collapses
+    // toward 0 and the formula's own guard (`availablePoints > 0 ? ... : 0`)
+    // means the category reads as 0%, never 100% — a category can't earn
+    // credit for data it was never able to evaluate.
+    expect(gbp.categoryPercentage).not.toBe(100);
+    expect(competitive.categoryPercentage).not.toBe(100);
+  });
+
+  it("never scores local_authority_citations 100% via directory coverage, which always remains not-evaluated without a citation provider", () => {
+    const result = runScoringEngine(makeContext());
+    const directoryCoverage = result.findings.find((f) => f.ruleId === "citations.directory_coverage")!;
+    const aggregatorPresence = result.findings.find((f) => f.ruleId === "citations.data_aggregator_presence")!;
+    expect(directoryCoverage.status).toBe("unknown");
+    expect(aggregatorPresence.status).toBe("unknown");
+  });
+
+  it("stamps industryTemplate and scoreable on every finding", () => {
+    const result = runScoringEngine(makeContext());
+    expect(result.findings.every((f) => f.industryTemplate === "hvac")).toBe(true);
+    expect(result.findings.every((f) => f.scoreable === (f.status !== "unknown"))).toBe(true);
   });
 });

@@ -15,6 +15,14 @@ export const competitiveRules: ScoringRule[] = [
     id: "competitive.benchmark_available",
     category: CATEGORY,
     evaluate: (ctx) => {
+      if (!ctx.competitorsConfigured) {
+        return unknownFinding(
+          "competitive.benchmark_available",
+          CATEGORY,
+          1.5,
+          "Competitor search was not available for this audit (unconfigured or rejected by the provider-integrity check) — competitive visibility is not evaluated rather than scored as absent."
+        );
+      }
       const pass = ctx.competitors.length >= 3;
       return buildFinding({
         ruleId: "competitive.benchmark_available",
