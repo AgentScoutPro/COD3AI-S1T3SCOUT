@@ -17,7 +17,7 @@ import { detectIndustry } from "@/lib/industry-templates/detect";
 import { verifyEntity } from "./entity-verification";
 import { checkProviderIntegrity, type IntegrityCheckResult } from "./provider-integrity";
 import { validateAiOutput } from "./validate-ai-output";
-import { requiresApproval } from "./approval-gate";
+import { requiresApproval, canHandoffToCrm } from "./approval-gate";
 import type { AuditStage, DisplayStatus, SourceType } from "@/lib/supabase/types";
 import type { CrawledPageResult, PlaceRecord, PageSpeedMetrics } from "@/lib/providers/types";
 
@@ -423,7 +423,16 @@ export async function runAudit(auditId: string): Promise<void> {
 
     const classification = scoreClassification(scoring.overallScore);
     let publicToken = "";
-    const reviewStatus = requiresApproval(auditMode) ? "needs_review" : "not_required";
+    // Internal-use policy: public_live/connected_client audits are
+    // auto-approved on completion rather than waiting on a manual click —
+    // requested explicitly because this deployment is used internally, not
+    // opened up to outside submitters. This does NOT weaken any of the
+    // data-integrity checks upstream (provider-integrity mock rejection,
+    // industry-mismatch blocking, entity verification all still ran and
+    // still would have blocked/degraded this audit if they'd found a
+    // problem) — it only removes the human click that used to gate
+    // visibility of an audit that already passed every other check.
+    const reviewStatus = requiresApproval(auditMode) ? "approved" : "not_required";
     await stage(auditId, "generating_report", async () => {
       publicToken = generateReportToken();
       const reportJson = {
@@ -465,14 +474,15 @@ export async function runAudit(auditId: string): Promise<void> {
         current_stage: "completed",
         completed_at: new Date().toISOString(),
         review_status: reviewStatus,
+        ...(reviewStatus === "approved"
+          ? { reviewed_by: "system (auto-approved — internal-use policy)", reviewed_at: new Date().toISOString() }
+          : {}),
       })
       .eq("id", auditId);
     await logEvent(auditId, "completed", "completed", "Audit completed successfully.");
 
     // Optional, fault-tolerant CRM handoff — never affects audit outcome.
-    // Gated on review: public_live/connected_client audits must be approved
-    // before a lead is handed to the CRM (§7 — "CRM handoff requires approval").
-    if (!env.disableCrmHandoff && reviewStatus === "not_required") {
+    if (!env.disableCrmHandoff && canHandoffToCrm(auditMode, reviewStatus)) {
       void sendToCrm({
         businessName: business.name,
         websiteUrl: business.website_url,
