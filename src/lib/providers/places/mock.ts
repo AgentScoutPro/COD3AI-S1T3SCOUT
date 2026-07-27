@@ -25,6 +25,7 @@ export class MockGooglePlacesProvider implements GooglePlacesProvider {
     city: string;
     state: string;
     websiteUrl: string;
+    mapsLink?: string | null;
   }): Promise<ProviderResult<PlaceRecord | null>> {
     const rng = seededRandom(`${input.name}:${input.city}:${input.state}`);
     const rating = Math.round((3.5 + rng() * 1.4) * 10) / 10;

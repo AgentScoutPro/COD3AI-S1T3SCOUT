@@ -85,6 +85,10 @@ export interface GooglePlacesProvider {
     city: string;
     state: string;
     websiteUrl: string;
+    /** Optional Google Maps / Business Profile share link from intake —
+     * when resolvable, used for a precise name+lat/lng lookup instead of
+     * name+city text search. See src/lib/providers/places/maps-link.ts. */
+    mapsLink?: string | null;
   }): Promise<ProviderResult<PlaceRecord | null>>;
 
   searchCompetitors(input: {

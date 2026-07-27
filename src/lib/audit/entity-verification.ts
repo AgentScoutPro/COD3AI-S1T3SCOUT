@@ -18,6 +18,11 @@ export interface EntityVerificationInput {
     state: string;
   };
   place: PlaceRecord | null;
+  /** True when the Places result came from a tight-radius lookup around a
+   * user-supplied Maps link, rather than a name+city text search — see
+   * src/lib/providers/places/live.ts. A confirmed geo pin plus a name hit
+   * is strong enough on its own to call the match verified. */
+  matchedViaMapsLink?: boolean;
 }
 
 export interface EntityVerificationResult {
@@ -32,9 +37,11 @@ const VERIFIED_THRESHOLD = 60;
 /** A single matched signal (e.g. name alone — many businesses share
  * generic names) is not enough to call a match verified. */
 const MIN_MATCHED_SIGNALS = 2;
+/** Confidence floor applied when the match came via a resolved Maps link. */
+const MAPS_LINK_CONFIDENCE = 95;
 
 export function verifyEntity(input: EntityVerificationInput): EntityVerificationResult {
-  const { business, place } = input;
+  const { business, place, matchedViaMapsLink } = input;
   if (!place) {
     return { status: "not_applicable", confidence: 0, matchedSignals: [], conflictingSignals: [] };
   }
@@ -94,14 +101,19 @@ export function verifyEntity(input: EntityVerificationInput): EntityVerification
     }
   }
 
-  const confidence = possible > 0 ? Math.round((weight / possible) * 10000) / 100 : 0;
+  if (matchedViaMapsLink) matched.push("maps_link");
+
+  const weightedConfidence = possible > 0 ? Math.round((weight / possible) * 10000) / 100 : 0;
+  const confidence = matchedViaMapsLink ? Math.max(weightedConfidence, MAPS_LINK_CONFIDENCE) : weightedConfidence;
 
   // A domain conflict is disqualifying on its own regardless of the
   // aggregate score — a matching name and city can still be a different
-  // franchise location or an unrelated competitor.
+  // franchise location or an unrelated competitor. A maps-link match
+  // (tight-radius geo lookup, not name/city guessing) is verified on its
+  // own otherwise, without needing the usual second corroborating signal.
   const domainConflict = conflicting.includes("website_domain");
   const status: EntityVerificationStatus =
-    !domainConflict && confidence >= VERIFIED_THRESHOLD && matched.length >= MIN_MATCHED_SIGNALS
+    !domainConflict && (matchedViaMapsLink || (confidence >= VERIFIED_THRESHOLD && matched.length >= MIN_MATCHED_SIGNALS))
       ? "verified"
       : "unverified";
 

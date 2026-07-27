@@ -71,6 +71,26 @@ describe("verifyEntity", () => {
     expect(result.conflictingSignals).toContain("city_state");
   });
 
+  it("verifies a maps-link match at high confidence even without a second corroborating signal", () => {
+    const result = verifyEntity({
+      business: { ...business, phone: null },
+      place: makePlace({ websiteUri: null, phone: null, formattedAddress: "" }),
+      matchedViaMapsLink: true,
+    });
+    expect(result.status).toBe("verified");
+    expect(result.confidence).toBeGreaterThanOrEqual(95);
+    expect(result.matchedSignals).toContain("maps_link");
+  });
+
+  it("still refuses to verify a maps-link match if the returned place's own domain conflicts", () => {
+    const result = verifyEntity({
+      business,
+      place: makePlace({ websiteUri: "https://a-totally-different-company.com" }),
+      matchedViaMapsLink: true,
+    });
+    expect(result.status).toBe("unverified");
+  });
+
   it("excludes an unevaluable signal from confidence rather than penalizing it", () => {
     // No phone on either side — phone should be excluded from the
     // denominator, not silently counted as a conflict.

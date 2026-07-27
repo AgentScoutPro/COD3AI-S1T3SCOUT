@@ -79,6 +79,11 @@ export type Business = {
   city: string;
   state: string;
   place_id: string | null;
+  /** Optional Google Maps / Business Profile share link captured at
+   * intake — resolved by the live Places provider into a precise
+   * name+lat/lng lookup instead of guessing from name+city.
+   * See src/lib/providers/places/maps-link.ts. */
+  google_maps_url: string | null;
   /** Confirmed primary SEO target market — distinct from `city`/`state`
    * (intake city), which is not automatically the target market. Null until
    * explicitly confirmed by the client or verified by live data. */

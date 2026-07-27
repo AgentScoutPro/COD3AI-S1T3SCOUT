@@ -1,6 +1,11 @@
 import type { GooglePlacesProvider, PlaceRecord, ProviderResult } from "../types";
 import { env } from "@/lib/env";
 import { normalizeDomain } from "@/lib/crawler/normalize";
+import { resolveMapsLink } from "./maps-link";
+
+/** Tight radius around a maps-link-resolved pin — small enough that a
+ * match within it is effectively a location confirmation, not a guess. */
+const MAPS_LINK_BIAS_RADIUS_METERS = 200;
 
 const PLACES_SEARCH_URL = "https://places.googleapis.com/v1/places:searchText";
 
@@ -61,7 +66,13 @@ function toPlaceRecord(raw: RawPlace): PlaceRecord {
   };
 }
 
-async function searchText(query: string, limit: number): Promise<RawPlace[]> {
+interface LocationBias {
+  lat: number;
+  lng: number;
+  radiusMeters: number;
+}
+
+async function searchText(query: string, limit: number, locationBias?: LocationBias): Promise<RawPlace[]> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), env.requestTimeoutMs);
   try {
@@ -73,7 +84,20 @@ async function searchText(query: string, limit: number): Promise<RawPlace[]> {
         "X-Goog-Api-Key": env.googleMapsApiKey ?? "",
         "X-Goog-FieldMask": FIELD_MASK,
       },
-      body: JSON.stringify({ textQuery: query, maxResultCount: Math.min(limit, 20) }),
+      body: JSON.stringify({
+        textQuery: query,
+        maxResultCount: Math.min(limit, 20),
+        ...(locationBias
+          ? {
+              locationBias: {
+                circle: {
+                  center: { latitude: locationBias.lat, longitude: locationBias.lng },
+                  radius: locationBias.radiusMeters,
+                },
+              },
+            }
+          : {}),
+      }),
     });
     if (!res.ok) throw new Error(`Places API error: ${res.status}`);
     const json = (await res.json()) as { places?: RawPlace[] };
@@ -89,10 +113,34 @@ export class LiveGooglePlacesProvider implements GooglePlacesProvider {
     city: string;
     state: string;
     websiteUrl: string;
+    mapsLink?: string | null;
   }): Promise<ProviderResult<PlaceRecord | null>> {
     if (!env.googleMapsApiKey) {
       return { mode: "live", status: "error", data: null, errorMessage: "GOOGLE_MAPS_API_KEY not configured." };
     }
+
+    // A supplied Maps link, when it resolves, gives a precise pin to
+    // search around instead of guessing from the user-typed city — try it
+    // first, but never let a resolution/search failure here block the
+    // ordinary name+city fallback below.
+    if (input.mapsLink) {
+      try {
+        const resolved = await resolveMapsLink(input.mapsLink);
+        if (resolved) {
+          const results = await searchText(resolved.name ?? input.name, 1, {
+            lat: resolved.lat,
+            lng: resolved.lng,
+            radiusMeters: MAPS_LINK_BIAS_RADIUS_METERS,
+          });
+          if (results.length > 0) {
+            return { mode: "live", status: "ok", data: toPlaceRecord(results[0]), rawMetadata: { matchedViaMapsLink: true } };
+          }
+        }
+      } catch {
+        // Fall through to the name+city search below.
+      }
+    }
+
     try {
       const results = await searchText(`${input.name}, ${input.city}, ${input.state}`, 1);
       if (results.length === 0) return { mode: "live", status: "partial", data: null };

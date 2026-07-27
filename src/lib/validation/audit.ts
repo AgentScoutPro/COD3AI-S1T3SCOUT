@@ -22,6 +22,10 @@ export const auditIntakeSchema = z.object({
     .regex(usStateAbbrev, "Use a two-letter state code, e.g. AZ"),
   phone: z.string().trim().regex(e164ish, "Enter a valid phone number").optional().or(z.literal("")),
   email: z.email().optional().or(z.literal("")),
+  // Loosely validated on purpose — an unrecognized format degrades to a
+  // silent name+city fallback downstream (see maps-link.ts), not a hard
+  // failure, so the server shouldn't block submission over it either.
+  mapsLink: z.string().trim().max(500).optional().or(z.literal("")),
 });
 
 export type AuditIntakeInput = z.infer<typeof auditIntakeSchema>;

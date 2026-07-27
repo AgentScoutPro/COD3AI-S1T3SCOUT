@@ -27,6 +27,7 @@ export async function createAudit(input: AuditIntakeInput): Promise<CreateAuditR
       email: input.email || null,
       city: input.city,
       state: input.state,
+      google_maps_url: input.mapsLink || null,
     })
     .select("id")
     .single();

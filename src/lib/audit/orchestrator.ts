@@ -166,16 +166,19 @@ export async function runAudit(auditId: string): Promise<void> {
         city: business.city,
         state: business.state,
         websiteUrl: business.website_url,
+        mapsLink: business.google_maps_url,
       });
       const integrity = checkProviderIntegrity({ auditMode, sourceType: "places", providerMode: result.mode, status: result.status, data: result.data });
       placesConfigured = integrity.allowed;
       place = integrity.data;
+      const matchedViaMapsLink = Boolean(result.rawMetadata?.matchedViaMapsLink);
 
       let verification: ReturnType<typeof verifyEntity> = { status: "not_applicable", confidence: 0, matchedSignals: [], conflictingSignals: [] };
       if (place) {
         verification = verifyEntity({
           business: { name: business.name, normalizedDomain: business.normalized_domain, phone: business.phone, city: business.city, state: business.state },
           place,
+          matchedViaMapsLink,
         });
         if (verification.status !== "verified") {
           // Uncertain, not "confirmed absent" — route through the same
@@ -201,13 +204,14 @@ export async function runAudit(auditId: string): Promise<void> {
       await recordSource("places", result.mode, result.status, { ...integrity, displayStatus: place ? integrity.displayStatus : ("unavailable" as DisplayStatus) }, {
         found: Boolean(integrity.data),
         entityVerificationStatus: verification.status,
+        matchedViaMapsLink,
         errorMessage: result.errorMessage ?? null,
       });
 
       if (place) {
         await supabase.from("businesses").update({ place_id: (place as PlaceRecord).placeId }).eq("id", business.id);
       }
-      return { found: Boolean(place), entityStatus: verification.status };
+      return { found: Boolean(place), entityStatus: verification.status, matchedViaMapsLink };
     });
 
     let pageSpeedResults: PageSpeedMetrics[] = [];
