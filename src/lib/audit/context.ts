@@ -8,6 +8,8 @@ export interface BuildContextInput {
   crawl: WebsiteCrawlOutput;
   place: PlaceRecord | null;
   placesConfigured: boolean;
+  placeMatchMethod: "website" | "name" | "maps_link" | null;
+  placeMatchQueryPath: "strict" | "fallback" | "maps_link" | null;
   pageSpeed: PageSpeedMetrics[];
   pageSpeedConfigured: boolean;
   competitors: PlaceRecord[];
@@ -39,6 +41,8 @@ export function buildRuleContext(input: BuildContextInput): RuleContext {
     },
     place: input.place,
     placesConfigured: input.placesConfigured,
+    placeMatchMethod: input.placeMatchMethod,
+    placeMatchQueryPath: input.placeMatchQueryPath,
     pageSpeed: input.pageSpeed,
     pageSpeedConfigured: input.pageSpeedConfigured,
     competitors: input.competitors,

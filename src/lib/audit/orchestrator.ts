@@ -160,6 +160,8 @@ export async function runAudit(auditId: string): Promise<void> {
     const placesProvider = getGooglePlacesProvider();
     let place: PlaceRecord | null = null;
     let placesConfigured = false;
+    let placeMatchMethod: "website" | "name" | "maps_link" | null = null;
+    let placeMatchQueryPath: "strict" | "fallback" | "maps_link" | null = null;
     await stage(auditId, "retrieving_places", async () => {
       const result = await placesProvider.findBusiness({
         name: business.name,
@@ -172,6 +174,9 @@ export async function runAudit(auditId: string): Promise<void> {
       placesConfigured = integrity.allowed;
       place = integrity.data;
       const matchedViaMapsLink = Boolean(result.rawMetadata?.matchedViaMapsLink);
+      const rawMatchMethod = (result.rawMetadata?.matchMethod as "website" | "name" | "maps_link" | "none" | undefined) ?? null;
+      placeMatchMethod = rawMatchMethod === "none" ? null : rawMatchMethod;
+      placeMatchQueryPath = (result.rawMetadata?.queryPath as "strict" | "fallback" | "maps_link" | undefined) ?? null;
 
       let verification: ReturnType<typeof verifyEntity> = { status: "not_applicable", confidence: 0, matchedSignals: [], conflictingSignals: [] };
       if (place) {
@@ -186,6 +191,8 @@ export async function runAudit(auditId: string): Promise<void> {
           // competitor rules don't score an unverified match.
           place = null;
           placesConfigured = false;
+          placeMatchMethod = null;
+          placeMatchQueryPath = null;
         }
       }
 
@@ -205,13 +212,15 @@ export async function runAudit(auditId: string): Promise<void> {
         found: Boolean(integrity.data),
         entityVerificationStatus: verification.status,
         matchedViaMapsLink,
+        matchMethod: result.rawMetadata?.matchMethod ?? null,
+        queryPath: result.rawMetadata?.queryPath ?? null,
         errorMessage: result.errorMessage ?? null,
       });
 
       if (place) {
         await supabase.from("businesses").update({ place_id: (place as PlaceRecord).placeId }).eq("id", business.id);
       }
-      return { found: Boolean(place), entityStatus: verification.status, matchedViaMapsLink };
+      return { found: Boolean(place), entityStatus: verification.status, matchedViaMapsLink, matchMethod: placeMatchMethod, matchQueryPath: placeMatchQueryPath };
     });
 
     let pageSpeedResults: PageSpeedMetrics[] = [];
@@ -305,6 +314,8 @@ export async function runAudit(auditId: string): Promise<void> {
         crawl: crawl.data,
         place,
         placesConfigured,
+        placeMatchMethod,
+        placeMatchQueryPath,
         pageSpeed: pageSpeedResults,
         pageSpeedConfigured,
         competitors,

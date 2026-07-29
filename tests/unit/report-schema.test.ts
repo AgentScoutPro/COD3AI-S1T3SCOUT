@@ -41,10 +41,13 @@ describe("aiReportOutputSchema", () => {
       crawlMeta: { robotsAllowed: false, robotsTxtFound: false, sitemapsFound: [], crawlCapped: false },
       place: null,
       placesConfigured: false,
+      placeMatchMethod: null,
+      placeMatchQueryPath: null,
       pageSpeed: [],
       pageSpeedConfigured: false,
       competitors: [],
       competitorPages: {},
+      competitorsConfigured: false,
     };
     const scoring = runScoringEngine(ctx);
 

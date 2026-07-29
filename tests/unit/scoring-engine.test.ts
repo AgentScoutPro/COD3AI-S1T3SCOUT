@@ -39,6 +39,8 @@ function makeContext(overrides: Partial<RuleContext> = {}): RuleContext {
     crawlMeta: { robotsAllowed: true, robotsTxtFound: true, sitemapsFound: ["https://example.com/sitemap.xml"], crawlCapped: false },
     place: null,
     placesConfigured: false,
+    placeMatchMethod: null,
+    placeMatchQueryPath: null,
     pageSpeed: [],
     pageSpeedConfigured: false,
     competitors: [],

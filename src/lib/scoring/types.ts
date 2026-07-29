@@ -41,6 +41,15 @@ export interface RuleContext {
   };
   place: PlaceRecord | null;
   placesConfigured: boolean;
+  /** How `place` was matched — lets gbp.profile_found's explanation say
+   * "matched by website" / "matched by name only, confirm this is
+   * correct" instead of a single generic "found" message for every case.
+   * Null when there's no place (not configured or no match at all). */
+  placeMatchMethod: "website" | "name" | "maps_link" | null;
+  /** Whether the match came from the strict name+city+state query or the
+   * broader name+state fallback — a fallback-only match is weaker
+   * evidence than a strict-query match even at the same matchMethod. */
+  placeMatchQueryPath: "strict" | "fallback" | "maps_link" | null;
   pageSpeed: PageSpeedMetrics[];
   pageSpeedConfigured: boolean;
   competitors: PlaceRecord[];

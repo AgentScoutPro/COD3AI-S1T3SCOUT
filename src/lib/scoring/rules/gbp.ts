@@ -1,8 +1,48 @@
-import type { ScoringRule } from "../types";
+import type { RuleContext, ScoringRule } from "../types";
 import { buildFinding, unknownFinding } from "../helpers";
 import { normalizePhone } from "@/lib/crawler/normalize";
 
 const CATEGORY = "google_business_profile" as const;
+
+// gbp.profile_found's explanation used to collapse every outcome into one
+// generic "found" or "not found" message, regardless of how confidently it
+// was matched. A fallback-only or name-only match is real signal but
+// meaningfully weaker than a strict-query website match — worth saying so
+// rather than presenting both with identical certainty.
+function matchFoundExplanation(ctx: RuleContext): string {
+  const { placeMatchMethod: method, placeMatchQueryPath: path } = ctx;
+
+  if (method === "maps_link") {
+    return "A Google Business Profile was confirmed via the Maps link provided at intake.";
+  }
+  if (method === "website" && path === "strict") {
+    return "A matching Google Business Profile was found via Places API, confirmed by its listed website matching this business's domain.";
+  }
+  if (method === "website" && path === "fallback") {
+    return "A matching Google Business Profile was found via a broader Places API search, confirmed by its listed website matching this business's domain.";
+  }
+  if (method === "name" && path === "strict") {
+    return "A likely Google Business Profile match was found via Places API by business name — no website was listed on the profile to cross-check.";
+  }
+  if (method === "name" && path === "fallback") {
+    return "A likely Google Business Profile match was found only via a broader search (the city was dropped from the query) and matched by name alone — confirm this is the correct listing.";
+  }
+  return "A matching Google Business Profile was found via Places API.";
+}
+
+function matchNotFoundExplanation(): string {
+  // Reached only when ctx.placesConfigured is already true (the rule
+  // returns early via unknownFinding otherwise) — a genuine no-match means
+  // both the strict and broader fallback queries were tried.
+  return "No matching Google Business Profile could be found via Places API, even after a broader fallback search.";
+}
+
+function matchConfidence(ctx: RuleContext): number {
+  if (ctx.placeMatchMethod === "website" || ctx.placeMatchMethod === "maps_link") return 0.9;
+  if (ctx.placeMatchMethod === "name" && ctx.placeMatchQueryPath === "strict") return 0.7;
+  if (ctx.placeMatchMethod === "name" && ctx.placeMatchQueryPath === "fallback") return 0.5;
+  return 0.9;
+}
 
 export const gbpRules: ScoringRule[] = [
   {
@@ -25,13 +65,11 @@ export const gbpRules: ScoringRule[] = [
         pointsEarnedRatio: pass ? 1 : 0,
         status: pass ? "pass" : "fail",
         severity: pass ? "informational" : "critical",
-        explanation: pass
-          ? "A matching Google Business Profile was found via Places API."
-          : "No matching Google Business Profile could be found via Places API.",
+        explanation: pass ? matchFoundExplanation(ctx) : matchNotFoundExplanation(),
         recommendation: pass ? undefined : "Claim and verify a Google Business Profile for this location.",
         estimatedImpact: "high",
         estimatedEffort: "low",
-        confidence: 0.9,
+        confidence: pass ? matchConfidence(ctx) : 0.9,
       });
     },
   },
